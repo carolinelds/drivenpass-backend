@@ -26,11 +26,19 @@ export function unprocessableEntity(entity: string):{ type: string, message: str
     }
 }
 
+export function unauthorized(entity: string):{ type: string, message: string }{
+    throw {
+        type: "error_unauthorized",
+        message: `${entity} unauthorized.`
+    }    
+}
+
 const errorResponses = {
     notFound,
     conflict,
     badRequest,
-    unprocessableEntity
+    unprocessableEntity,
+    unauthorized
 };
 
 export default errorResponses;
