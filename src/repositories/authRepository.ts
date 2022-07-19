@@ -1,5 +1,5 @@
 import prisma from "./../config/database.js";
-import { CreateUserData } from "../services/authService.js";
+import { CreateSessionData, CreateUserData } from "../services/authService.js";
 
 export async function findSessionById(sessionId: number) {
     const session = await prisma.sessions.findUnique({
@@ -27,10 +27,19 @@ export async function findUserByEmail(email: string){
     return user;
 }
 
+export async function addNewSession(newSession: CreateSessionData){
+    const createdSession = await prisma.sessions.create({
+        data: newSession
+    });
+    
+    return createdSession.id;
+}
+
 const authRepository = {
     findSessionById,
     addNewUser,
     findUserByEmail,
+    addNewSession
 };
 
 export default authRepository;
