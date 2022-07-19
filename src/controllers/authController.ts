@@ -16,3 +16,12 @@ export async function login(req: Request, res: Response){
 
     res.status(200).send(token);
 }
+
+export async function logout(req: Request, res: Response){
+    const { authorization } = req.headers;
+    const token = authorization?.replace('Bearer ', ''); 
+
+    await authService.logoutService(token);
+
+    res.sendStatus(200);
+}

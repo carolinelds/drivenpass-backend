@@ -41,14 +41,22 @@ export async function loginService(email: string, password: string){
     const idSession = await authRepository.addNewSession(newSession);
 
     const jwtKey = process.env.JWT_SECRET;
-    const token = jwt.sign({ idSession }, jwtKey);
+    const token = jwt.sign({ idSession, idUser: user.id }, jwtKey);
 
     return token;
 }
 
+export async function logoutService(token: string){
+    const jwtKey = process.env.JWT_SECRET;
+    const tokenData : any = jwt.verify(token, jwtKey);
+
+    await authRepository.deleteSession(tokenData.idSession);
+}
+
 const authService = {
     createUserService,
-    loginService
+    loginService,
+    logoutService
 };
 
 export default authService;

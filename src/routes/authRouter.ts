@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createUser, login } from "./../controllers/authController.js";
+import { createUser, login, logout } from "./../controllers/authController.js";
 import { validateToken } from "./../middlewares/authMiddleware.js";
 import validSchema from "./../middlewares/validateSchema.js";
 import authSchema from "./../schemas/authSchema.js";
@@ -14,6 +14,11 @@ authRouter.post("/user/signup",
 authRouter.post("/user/signin",
     validSchema(authSchema.loginSchema, "User email and/or password"),
     login
+)
+
+authRouter.delete("/user/session",
+    validateToken,
+    logout
 )
 
 export default authRouter;

@@ -1,5 +1,6 @@
 import prisma from "./../config/database.js";
 import { CreateSessionData, CreateUserData } from "../services/authService.js";
+import { Sessions } from "@prisma/client";
 
 export async function findSessionById(sessionId: number) {
     const session = await prisma.sessions.findUnique({
@@ -35,11 +36,20 @@ export async function addNewSession(newSession: CreateSessionData){
     return createdSession.id;
 }
 
+export async function deleteSession(idSession: number){
+    await prisma.sessions.delete({
+        where: {
+            id: idSession
+        }
+    });
+}
+
 const authRepository = {
     findSessionById,
     addNewUser,
     findUserByEmail,
-    addNewSession
+    addNewSession,
+    deleteSession
 };
 
 export default authRepository;

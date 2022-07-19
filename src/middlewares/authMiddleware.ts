@@ -11,7 +11,7 @@ export async function validateToken(req: Request, res: Response, next: NextFunct
         return errorResponses.unauthorized("User");
     }
 
-    let userData;
+    let userData : any;
 
     try {
         userData = jwt.verify(token, process.env.JWT_SECRET);
