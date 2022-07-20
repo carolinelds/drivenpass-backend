@@ -25,5 +25,7 @@ export async function validateToken(req: Request, res: Response, next: NextFunct
         return errorResponses.unauthorized("User");
     }
 
+    res.locals.idUser = session.idUser;
+
     next()
 }

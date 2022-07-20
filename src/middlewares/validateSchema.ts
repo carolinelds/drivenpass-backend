@@ -1,6 +1,7 @@
 import { stripHtml } from "string-strip-html";
 import { Request, Response, NextFunction } from "express";
 import errorResponse from "./../responses/errorResponses.js";
+import Joi from "joi";
 
 export default function validSchema(schema: any, errorMessageEntity: string) {    
     return async (req: Request, res: Response, next: NextFunction) => {       
@@ -8,7 +9,7 @@ export default function validSchema(schema: any, errorMessageEntity: string) {
         const schemaBody: object = {};
 
         for (const key in body) {
-            if (typeof schema[key] === "string") {
+            if (typeof body[key] === "string" && key !== "url") {
                 schemaBody[key] = stripHtml(body[key]).result.trim();
             } else {
                 schemaBody[key] = body[key];
@@ -22,7 +23,7 @@ export default function validSchema(schema: any, errorMessageEntity: string) {
         }
         
         res.locals.body = validation.value;
-
+        
         next();
     }
 }

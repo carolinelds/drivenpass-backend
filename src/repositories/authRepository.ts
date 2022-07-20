@@ -1,7 +1,7 @@
 import prisma from "./../config/database.js";
 import { CreateSessionData, CreateUserData } from "../services/authService.js";
-import { Sessions } from "@prisma/client";
 
+// FIXME: remove exports 
 export async function findSessionById(sessionId: number) {
     const session = await prisma.sessions.findUnique({
         where: {
