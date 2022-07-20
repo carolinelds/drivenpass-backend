@@ -45,6 +45,7 @@ model Cards {
   id             Int     @id @default(autoincrement())
   idUser         Int
   user           Users   @relation(fields: [idUser], references: [id])
+  title          String
   number         String
   cardholderName String
   securityCode   String
