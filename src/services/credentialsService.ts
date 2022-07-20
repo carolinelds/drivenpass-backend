@@ -1,3 +1,5 @@
+import Cryptr from "cryptr";
+import "./../setup.js";
 import { Credentials } from "@prisma/client";
 import errorResponses from "./../responses/errorResponses.js";
 import credentialsRepository from "./../repositories/credentialsRepository.js";
@@ -11,11 +13,14 @@ async function createCredential(idUser: number, url: string, username: string, p
         return errorResponses.conflict("Title");
     }
 
+    const cryptr = new Cryptr(process.env.CRYPTR_SECRET);
+    const encryptedPassword = cryptr.encrypt(password);
+
     const newCredential: CreateCredentialData = {
         idUser,
         url,
         username,
-        password,
+        password: encryptedPassword,
         title
     };
 
