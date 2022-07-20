@@ -10,17 +10,38 @@ async function findByTitleAndUserId(title: string, idUser: number){
     });
 
     return credential;
-}
+};
 
 async function addNewCredential(newCredential: CreateCredentialData){
     await prisma.credentials.create({
         data: newCredential
     });
-}
+};
+
+async function findByUserId(idUser: number){
+    const result = await prisma.credentials.findMany({
+        where: {
+            idUser
+        }
+    });
+    return result;
+};
+
+async function findByIdAndUserId(id: number, idUser: number){
+    const result = await prisma.credentials.findFirst({
+        where: {
+            id,
+            idUser
+        }
+    });
+    return result;
+};
 
 const credentialsRepository = {
     findByTitleAndUserId,
-    addNewCredential
+    addNewCredential,
+    findByUserId,
+    findByIdAndUserId
 };
 
 export default credentialsRepository;
