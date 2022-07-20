@@ -2,7 +2,7 @@ import { Router } from "express";
 import { validateToken } from "../middlewares/authMiddleware.js";
 import validSchema from "./../middlewares/validateSchema.js";
 import credentialsSchemas from "../schemas/credentialsSchemas.js";
-import { createCredential, getCredentials } from "./../controllers/credentialsController.js";
+import { createCredential, getCredentials, deleteCredential } from "./../controllers/credentialsController.js";
 
 const credentialsRouter = Router();
 
@@ -15,6 +15,11 @@ credentialsRouter.post("/credentials",
 credentialsRouter.get("/credentials",
     validateToken,
     getCredentials
+);
+
+credentialsRouter.delete("/credentials/:id",
+    validateToken,
+    deleteCredential
 );
 
 export default credentialsRouter;

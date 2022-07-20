@@ -11,7 +11,7 @@ async function createCredential(idUser: number, url: string, username: string, p
     const checkTitle = await credentialsRepository.findByTitleAndUserId(title, idUser);
     if (checkTitle.length > 0){
         return errorResponses.conflict("Title");
-    }
+    };
 
     const cryptr = new Cryptr(process.env.CRYPTR_SECRET);
     const encryptedPassword = cryptr.encrypt(password);
@@ -25,14 +25,14 @@ async function createCredential(idUser: number, url: string, username: string, p
     };
 
     await credentialsRepository.addNewCredential(newCredential);
-}
+};
 
 async function getCredentialsByUserId(idUser: number){
     const result = await credentialsRepository.findByUserId(idUser);
 
     if (result.length === 0){
         return errorResponses.notFound("Credentials for this user");
-    }
+    };
 
     const cryptr = new Cryptr(process.env.CRYPTR_SECRET);
     for (let r in result){
@@ -40,24 +40,35 @@ async function getCredentialsByUserId(idUser: number){
     };
 
     return result;
-}
+};
 
 async function getCredentialByIdAndUserId(id: number, idUser: number){
     const result = await credentialsRepository.findByIdAndUserId(id, idUser);
     if (!result){
         return errorResponses.notFound("This credential for this user was");
-    }
+    };
 
     const cryptr = new Cryptr(process.env.CRYPTR_SECRET);
     result.password = cryptr.decrypt(result.password);
 
     return result;
-}
+};
+
+async function deleteCredential(id: number, idUser: number){
+    const checkExists = await credentialsRepository.findByIdAndUserId(id, idUser);
+    if (!checkExists){
+        return errorResponses.notFound("This credential for this user was");
+    }
+
+    await credentialsRepository.deleteById(id);
+};
+
 
 const credentialsService = {
     createCredential,
     getCredentialsByUserId,
-    getCredentialByIdAndUserId
+    getCredentialByIdAndUserId,
+    deleteCredential
 };
 
 export default credentialsService;

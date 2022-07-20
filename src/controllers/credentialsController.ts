@@ -9,7 +9,7 @@ export async function createCredential(req: Request, res: Response){
     await credentialsService.createCredential(idUser, url, username, password, title);
 
     res.status(201).send("Credential created.");
-}
+};
 
 export async function getCredentials(req: Request, res: Response){
     const { id } = req.query;
@@ -24,4 +24,13 @@ export async function getCredentials(req: Request, res: Response){
     }
     
     res.status(200).send(result);
+};
+
+export async function deleteCredential(req: Request, res: Response){
+    const { id } = req.params;
+    const idUser = res.locals.idUser;
+
+    await credentialsService.deleteCredential(parseInt(id), idUser);
+
+    res.status(200).send("Credential deleted.");
 }
