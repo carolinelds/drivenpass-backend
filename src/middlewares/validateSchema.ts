@@ -1,7 +1,6 @@
 import { stripHtml } from "string-strip-html";
 import { Request, Response, NextFunction } from "express";
 import errorResponse from "./../responses/errorResponses.js";
-import Joi from "joi";
 
 export default function validSchema(schema: any, errorMessageEntity: string) {    
     return async (req: Request, res: Response, next: NextFunction) => {       

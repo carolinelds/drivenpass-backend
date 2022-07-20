@@ -6,8 +6,7 @@ export async function createUser(req: Request, res: Response){
 
     await authService.createUserService(email, password);
     
-    //FIXME: change http status to 201
-    res.status(200).send("User created.");
+    res.status(201).send("User created.");
 }
 
 export async function login(req: Request, res: Response){
