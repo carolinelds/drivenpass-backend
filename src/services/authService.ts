@@ -9,7 +9,7 @@ import { Users, Sessions } from "@prisma/client";
 export type CreateUserData = Omit<Users, "id">;
 export type CreateSessionData = Omit<Sessions, "id">;
 
-export async function createUserService(email: string, password: string){
+async function createUserService(email: string, password: string){
     const existingEmail = await authRepository.findUserByEmail(email);
     if (existingEmail){
         return errorResponses.conflict("Email");
@@ -26,7 +26,7 @@ export async function createUserService(email: string, password: string){
     await authRepository.addNewUser(newUser);
 }
 
-export async function loginService(email: string, password: string){
+async function loginService(email: string, password: string){
     const user = await authRepository.findUserByEmail(email);
     if (!user) {
         return errorResponses.unprocessableEntity("user email and/or password");
@@ -46,7 +46,7 @@ export async function loginService(email: string, password: string){
     return token;
 }
 
-export async function logoutService(token: string){
+async function logoutService(token: string){
     const jwtKey = process.env.JWT_SECRET;
     const tokenData : any = jwt.verify(token, jwtKey);
 

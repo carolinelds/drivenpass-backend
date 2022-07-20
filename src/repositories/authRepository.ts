@@ -1,8 +1,7 @@
 import prisma from "./../config/database.js";
 import { CreateSessionData, CreateUserData } from "../services/authService.js";
 
-// FIXME: remove exports 
-export async function findSessionById(sessionId: number) {
+async function findSessionById(sessionId: number) {
     const session = await prisma.sessions.findUnique({
         where: {
             id: sessionId
@@ -12,13 +11,13 @@ export async function findSessionById(sessionId: number) {
     return session;
 }
 
-export async function addNewUser(newUser: CreateUserData){
+async function addNewUser(newUser: CreateUserData){
     await prisma.users.create({
         data: newUser
     });
 }
 
-export async function findUserByEmail(email: string){
+async function findUserByEmail(email: string){
     const user = await prisma.users.findFirst({
         where: {
             email
@@ -28,7 +27,7 @@ export async function findUserByEmail(email: string){
     return user;
 }
 
-export async function addNewSession(newSession: CreateSessionData){
+async function addNewSession(newSession: CreateSessionData){
     const createdSession = await prisma.sessions.create({
         data: newSession
     });
@@ -36,7 +35,7 @@ export async function addNewSession(newSession: CreateSessionData){
     return createdSession.id;
 }
 
-export async function deleteSession(idSession: number){
+async function deleteSession(idSession: number){
     await prisma.sessions.delete({
         where: {
             id: idSession
