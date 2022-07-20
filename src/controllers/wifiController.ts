@@ -1,6 +1,6 @@
 import { WifiNetworks } from "@prisma/client";
 import { Request, Response } from "express";
-import wifiServices from "./../services/wifiServices";
+import wifiServices from "./../services/wifiServices.js";
 
 export async function createWifi(req: Request, res: Response){
     const idUser: number = parseInt(res.locals.idUser);
