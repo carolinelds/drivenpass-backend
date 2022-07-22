@@ -2,10 +2,7 @@ import app from "./../src/app.js";
 import supertest from "supertest";
 import prisma from "./../src/config/database.js";
 
-beforeEach(async () => {
-    await prisma.$executeRaw`TRUNCATE TABLE users CASCADE`;
-    await prisma.$executeRaw`TRUNCATE TABLE sessions CASCADE`;
-})
+const agent = supertest(app);
 
 describe("POST /user/signup", () => {
     it("given a valid email and password it should return 201", async () => {
@@ -14,7 +11,7 @@ describe("POST /user/signup", () => {
             password: "0123456789"
         };
 
-        const result = await supertest(app).post("/user/signup").send(body);
+        const result = await agent.post("/user/signup").send(body);
         const status = result.status;
 
         expect(status).toEqual(201);
@@ -26,8 +23,8 @@ describe("POST /user/signup", () => {
             password: "0123456789"
         };
         
-        await supertest(app).post("/user/signup").send(body);
-        const result = await supertest(app).post("/user/signup").send(body);
+        await agent.post("/user/signup").send(body);
+        const result = await agent.post("/user/signup").send(body);
         const status = result.status;
 
         expect(status).toEqual(409);
@@ -39,7 +36,7 @@ describe("POST /user/signup", () => {
             password: "123"
         };
 
-        const result = await supertest(app).post("/user/signup").send(body);
+        const result = await agent.post("/user/signup").send(body);
         const status = result.status;
 
         expect(status).toEqual(400);
@@ -51,7 +48,7 @@ describe("POST /user/signup", () => {
             password: "0123456789"
         };
 
-        const result = await supertest(app).post("/user/signup").send(body);
+        const result = await agent.post("/user/signup").send(body);
         const status = result.status;
 
         expect(status).toEqual(400);
@@ -63,7 +60,7 @@ describe("POST /user/signup", () => {
             password: "ihde"
         };
 
-        const result = await supertest(app).post("/user/signup").send(body);
+        const result = await agent.post("/user/signup").send(body);
         const status = result.status;
 
         expect(status).toEqual(400);
