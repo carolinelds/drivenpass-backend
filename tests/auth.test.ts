@@ -1,15 +1,13 @@
 import app from "./../src/app.js";
 import supertest from "supertest";
 import prisma from "./../src/config/database.js";
+import { createNewUser } from "./factories/userFactory.js";
 
 const agent = supertest(app);
 
 describe("POST /user/signup", () => {
     it("given a valid email and password it should return 201", async () => {
-        const body = {
-            email: "carol99@teste.com",
-            password: "0123456789"
-        };
+        const body = await createNewUser();
 
         const result = await agent.post("/user/signup").send(body);
         const status = result.status;
