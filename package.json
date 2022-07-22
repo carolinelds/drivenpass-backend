@@ -5,8 +5,13 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
+    "build": "tsc src/server.ts",
+    "start": "node dist/server.js",
     "dev": "nodemon src/server.ts",
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest -i"
+    "test": "dotenv -e .env.tests prisma migrate dev && prisma db seed && NODE_OPTIONS=--experimental-vm-modules dotenv -e .env.tests jest -i"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   },
   "keywords": [
     "drivenpass"
@@ -19,6 +24,7 @@
     "cors": "^2.8.5",
     "cryptr": "^6.0.3",
     "dotenv": "^16.0.0",
+    "dotenv-cli": "^6.0.0",
     "express": "^4.17.3",
     "express-async-errors": "^3.1.1",
     "joi": "^17.6.0",
